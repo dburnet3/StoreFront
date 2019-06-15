@@ -64,7 +64,7 @@ function customerInquiry() {
         message: "Please enter the # of items you wish to buy:"
     }
 ]).then(function(answer){
-        connection.query = "SELECT product_name, department_name, price, stock_quantity FROM products WHERE ?",{ item_id: answer.item_id }, function(err, res){
+        connection.query("SELECT product_name, department_name, price, stock_quantity FROM products WHERE ?",{ item_id: answer.item_id }, function(err, res){
             if (err) throw err;
             if (res[0].stock_quantity >= answer.quantity) {
                 var itemsRemaining = res[0].stock_quantity - answer.quantity;
@@ -75,17 +75,15 @@ function customerInquiry() {
                     console.log(`Your total is: ${purchaseTotal}`);
                     connection.end();
                 });
-            } 
+        } 
             else {
                 console.log("Quantity requested exceeds available inventory for this product.");
                 getStoreInfo();
                 
             }
-        }
+        })
     })
 }
-            
-        
     display();
 
 
